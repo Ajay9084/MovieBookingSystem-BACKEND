@@ -1,24 +1,16 @@
-services:
+version: '3.8'
 
-  mysql-db:
-    image: mysql:8
-    container_name: mysql-db
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: moviebookingapp
-    ports:
-      - "3307:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+services:
 
   movie-app:
     build: .
     container_name: movie-app
     ports:
       - "8080:8080"
-    depends_on:
-      mysql-db:
-        condition: service_healthy
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db.glqgahhxxrvbipywixly.supabase.co:5432/postgres?sslmode=require
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Ajay9291@$1
+
+    restart: always
